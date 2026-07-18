@@ -1,0 +1,55 @@
+# OS files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# IDE and Editor files
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+*.swp
+*.swo
+*~
+.project
+.classpath
+*.c9/
+*.log
+npm-debug.log
+yarn-error.log
+
+# Node.js files (if using Node modules)
+node_modules/
+package-lock.json
+yarn.lock
+
+# Local environment files
+.env
+.env.local
+.env.*.local
+
+# Build files
+dist/
+build/
+*.min.js
+*.min.css
+
+# IDE specific
+.vscode/settings.json
+.idea/workspace.xml
+
+# OSX
+.AppleDouble
+.LSOverride
+
+# Temporary files
+*.tmp
+*.temp
+.cache
+
+# Keep node_modules if needed for CI/CD
+# !node_modules/
