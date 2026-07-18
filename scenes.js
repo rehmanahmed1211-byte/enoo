@@ -31,9 +31,11 @@ const Scenes = (() => {
 
         video.load();
     }
+video.currentTime = 0;
 
-    const p = video.play();
-    if (p && p.catch) p.catch(() => {});
+const p = video.play();
+if (p && p.catch) {
+    p.catch(err => console.log(err));
 }
 
 
