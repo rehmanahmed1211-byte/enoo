@@ -1,0 +1,507 @@
+/* =========================================================
+   DESIGN TOKENS
+   ========================================================= */
+:root {
+  /* palette */
+  --ink-navy:        #1b1533;
+  --ink-navy-deep:   #100c22;
+  --dusk-purple:     #2d1f4a;
+  --blush:           #ffd6e0;
+  --rose:            #f6a6c1;
+  --rose-deep:       #e26a92;
+  --gold:            #f3c969;
+  --gold-soft:       #ffe6ad;
+  --cream:           #fff8f0;
+  --paper:           #fbf1e4;
+  --paper-edge:      #e9d9c3;
+  --white-90:        rgba(255,255,255,0.9);
+  --white-70:        rgba(255,255,255,0.7);
+  --white-40:        rgba(255,255,255,0.4);
+  --glass-fill:       rgba(255,255,255,0.14);
+  --glass-fill-strong: rgba(255,255,255,0.22);
+  --glass-border:     rgba(255,255,255,0.35);
+
+  /* type */
+  --font-script: 'Great Vibes', cursive;
+  --font-display: 'Playfair Display', serif;
+  --font-hand: 'Caveat', cursive;
+  --font-body: 'Quicksand', sans-serif;
+
+  /* motion */
+  --ease-silk: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-soft: cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+* { box-sizing: border-box; }
+
+html, body {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  background: var(--ink-navy-deep);
+  font-family: var(--font-body);
+  color: var(--cream);
+  -webkit-font-smoothing: antialiased;
+}
+
+button { font-family: inherit; }
+
+::selection { background: var(--rose-deep); color: #fff; }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
+}
+
+/* =========================================================
+   STAGE / SCENES
+   ========================================================= */
+#stage {
+  position: relative;
+  width: 100vw;
+  height: 100svh;
+  overflow: hidden;
+}
+
+.scene {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transition: opacity 1.1s var(--ease-silk);
+  overflow: hidden;
+}
+
+.scene.scene-active {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+}
+
+.scene-bg {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+}
+
+.scene-bg--night {
+  background:
+    radial-gradient(ellipse at 30% 20%, rgba(246,166,193,0.10), transparent 55%),
+    radial-gradient(ellipse at 80% 80%, rgba(243,201,105,0.08), transparent 50%),
+    linear-gradient(180deg, var(--ink-navy-deep) 0%, var(--ink-navy) 55%, var(--dusk-purple) 100%);
+}
+
+.scene-bg--dusk {
+  background:
+    radial-gradient(ellipse at 50% 0%, rgba(246,166,193,0.18), transparent 60%),
+    linear-gradient(180deg, #2d1f4a 0%, #4a2c52 55%, #6b3a5c 100%);
+}
+
+.scene-bg--pink {
+  background:
+    radial-gradient(ellipse at 50% 20%, rgba(255,255,255,0.25), transparent 55%),
+    linear-gradient(160deg, #ffb6d0 0%, #f884b0 45%, #e2618c 100%);
+}
+
+.scene-bg--gold {
+  background:
+    radial-gradient(ellipse at 50% 30%, rgba(255,230,173,0.35), transparent 60%),
+    linear-gradient(160deg, #ffd9a0 0%, #f7b6c9 55%, #eb8fae 100%);
+}
+
+/* Video / media layer */
+.scene-media {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  background: var(--ink-navy);
+}
+
+.scene-media-fallback {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+}
+
+.scene-video {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: 1;
+  opacity: 0;
+  transition: opacity 1.2s var(--ease-silk);
+}
+
+.scene-video.is-loaded { opacity: 1; }
+
+.scene-vignette {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  background: radial-gradient(ellipse at 50% 100%, rgba(16,12,34,0.75) 0%, rgba(16,12,34,0.15) 45%, transparent 70%),
+              linear-gradient(0deg, rgba(16,12,34,0.55) 0%, transparent 35%);
+}
+
+.scene-vignette--fadeout {
+  transition: opacity 3.5s var(--ease-soft), background-color 3.5s var(--ease-soft);
+}
+.scene-vignette--fadeout.blackout {
+  background: #05030c;
+  opacity: 1;
+}
+
+/* =========================================================
+   CONTENT LAYOUT
+   ========================================================= */
+.scene-content {
+  position: relative;
+  z-index: 5;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 6vh 6vw;
+}
+
+.center-content {
+  justify-content: center;
+  text-align: center;
+  gap: 1.5rem;
+}
+
+.bottom-content {
+  justify-content: flex-end;
+  align-items: center;
+  text-align: center;
+  gap: 1.75rem;
+  padding-bottom: 8vh;
+}
+
+/* =========================================================
+   TYPOGRAPHY
+   ========================================================= */
+.eyebrow-script {
+  font-family: var(--font-script);
+  font-size: clamp(1.4rem, 3vw, 2.1rem);
+  color: var(--gold-soft);
+  margin: 0;
+  letter-spacing: 0.5px;
+}
+
+.title-hero {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: clamp(2.4rem, 6.5vw, 4.6rem);
+  line-height: 1.15;
+  margin: 0.4rem 0 1.6rem;
+  background: linear-gradient(180deg, #fff 10%, var(--blush) 60%, var(--rose) 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  text-shadow: 0 0 45px rgba(246,166,193,0.35);
+}
+
+.title-glow {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: clamp(2.2rem, 5.5vw, 3.6rem);
+  margin: 0;
+  color: #fff;
+  text-shadow: 0 0 20px rgba(255,255,255,0.5), 0 0 60px rgba(246,166,193,0.55);
+}
+
+.title-glow--xl { font-size: clamp(2.6rem, 7vw, 5rem); line-height: 1.2; }
+
+.name-shine {
+  background: linear-gradient(100deg, var(--gold-soft) 20%, #fff 40%, var(--rose) 60%, var(--gold-soft) 80%);
+  background-size: 300% auto;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  animation: shine-sweep 4s linear infinite;
+}
+
+.subtext {
+  font-family: var(--font-body);
+  font-weight: 500;
+  font-size: clamp(1rem, 2.2vw, 1.35rem);
+  color: var(--white-90);
+  max-width: 42ch;
+  margin: 0;
+}
+
+.final-line {
+  font-family: var(--font-script);
+  font-size: clamp(1.6rem, 4vw, 2.6rem);
+  color: var(--white-90);
+  margin: 0.2rem 0;
+}
+
+.made-with-love {
+  font-family: var(--font-body);
+  font-size: 0.95rem;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--white-40);
+  margin-top: 1.4rem;
+}
+
+.heart-pulse { display: inline-block; animation: heart-pulse 1.4s ease-in-out infinite; }
+
+/* =========================================================
+   BUTTONS
+   ========================================================= */
+.btn {
+  position: relative;
+  border: 1px solid var(--glass-border);
+  background: var(--glass-fill);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  color: #fff;
+  font-weight: 600;
+  font-size: clamp(0.95rem, 2vw, 1.1rem);
+  padding: 1rem 2.2rem;
+  border-radius: 999px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  overflow: hidden;
+  transition: transform 0.35s var(--ease-silk), box-shadow 0.35s var(--ease-silk), background 0.35s;
+  box-shadow: 0 8px 30px rgba(226,106,146,0.25);
+}
+
+.btn:hover {
+  transform: translateY(-3px) scale(1.03);
+  background: var(--glass-fill-strong);
+  box-shadow: 0 14px 40px rgba(246,166,193,0.4);
+}
+
+.btn:active { transform: translateY(-1px) scale(0.98); }
+
+.btn-glow::before {
+  content: "";
+  position: absolute;
+  inset: -40%;
+  background: conic-gradient(from 0deg, transparent, rgba(255,255,255,0.5), transparent 30%);
+  animation: rotate-glow 3.5s linear infinite;
+  z-index: -1;
+  opacity: 0.5;
+}
+
+.btn-heart { display: inline-block; }
+
+.btn.hidden { display: none; }
+
+.btn-paper {
+  background: rgba(255,255,255,0.55);
+  border: 1px solid rgba(120,80,60,0.25);
+  color: #5c3a2e;
+  box-shadow: 0 8px 24px rgba(120,80,60,0.18);
+}
+.btn-paper:hover { background: rgba(255,255,255,0.75); }
+
+/* ripple */
+.ripple {
+  position: absolute;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.55);
+  transform: scale(0);
+  animation: ripple-out 0.7s var(--ease-soft) forwards;
+  pointer-events: none;
+}
+
+/* =========================================================
+   SPEECH BUBBLES
+   ========================================================= */
+.bubble-stack {
+  display: flex;
+  flex-direction: column;
+  gap: 0.9rem;
+  align-items: center;
+  max-width: 640px;
+}
+
+.speech-bubble {
+  background: var(--glass-fill);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid var(--glass-border);
+  border-radius: 22px;
+  padding: 1rem 1.5rem;
+  box-shadow: 0 10px 34px rgba(0,0,0,0.25);
+  opacity: 0;
+  transform: translateY(16px) scale(0.98);
+  transition: opacity 0.7s var(--ease-silk), transform 0.7s var(--ease-silk);
+}
+
+.speech-bubble.is-visible {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+}
+
+.speech-bubble p {
+  margin: 0;
+  font-family: var(--font-body);
+  font-weight: 500;
+  font-size: clamp(1rem, 2.2vw, 1.2rem);
+  color: #fff;
+  min-height: 1.4em;
+}
+
+.typewriter-caret {
+  display: inline-block;
+  width: 2px;
+  margin-left: 2px;
+  background: var(--gold-soft);
+  animation: caret-blink 0.8s steps(1) infinite;
+}
+
+/* =========================================================
+   PARTICLE LAYER CONTAINERS
+   ========================================================= */
+.starfield, .petal-field, .heart-field, .confetti-field,
+.balloon-field, .firework-field {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+#fx-canvas {
+  position: fixed;
+  inset: 0;
+  z-index: 998;
+  pointer-events: none;
+  width: 100vw;
+  height: 100vh;
+}
+
+#cursor-glow {
+  position: fixed;
+  width: 260px;
+  height: 260px;
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 999;
+  background: radial-gradient(circle, rgba(246,166,193,0.16) 0%, transparent 70%);
+  transform: translate(-50%, -50%);
+  transition: opacity 0.4s ease;
+  opacity: 0;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  #cursor-glow { opacity: 1; }
+}
+
+/* =========================================================
+   PREMIUM BACKGROUND (Pepe scenes)
+   Replaces the fullscreen video background: a soft animated
+   gradient + bokeh + sparkles sit behind a contained video,
+   so Pepe is never cropped and always stays the focal point.
+   ========================================================= */
+.premium-bg {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  overflow: hidden;
+}
+
+.bg-gradient {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+}
+
+.bg-gradient--dusk {
+  background:
+    radial-gradient(ellipse at 20% 15%, rgba(255,255,255,0.10), transparent 50%),
+    radial-gradient(ellipse at 85% 85%, rgba(243,201,105,0.10), transparent 55%),
+    linear-gradient(160deg, #2d1f4a 0%, #4a2c52 50%, #6b3a5c 100%);
+}
+
+.bg-gradient--pink {
+  background:
+    radial-gradient(ellipse at 25% 10%, rgba(255,255,255,0.22), transparent 55%),
+    radial-gradient(ellipse at 80% 90%, rgba(255,230,173,0.18), transparent 55%),
+    linear-gradient(160deg, #ffb6d0 0%, #f884b0 50%, #c9689a 100%);
+}
+
+/* =========================================================
+   PEPE LAYOUT — heading / video / bubble / button
+   ========================================================= */
+.pepe-layout {
+  justify-content: flex-start;
+  height: 100%;
+  padding: 5vh 7vw 4vh;
+  gap: clamp(1rem, 2.6vh, 1.75rem);
+}
+
+.scene-heading {
+  font-family: var(--font-script);
+  font-size: clamp(1.5rem, 3.4vw, 2.3rem);
+  color: var(--gold-soft);
+  margin: 0;
+  text-shadow: 0 0 20px rgba(243,201,105,0.35);
+}
+
+.pepe-frame {
+  position: relative;
+  width: min(92vw, 620px);
+  height: 58vh;
+  max-height: 60vh;
+  border-radius: 32px;
+  background: var(--glass-fill);
+  border: 1px solid var(--glass-border);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+  box-shadow: 0 30px 70px rgba(0,0,0,0.4), inset 0 0 50px rgba(255,255,255,0.08);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  padding: clamp(1rem, 2.5vw, 2rem);
+  flex-shrink: 0;
+}
+
+/* Video contained (not cropped) inside the glass frame */
+.pepe-frame .scene-video {
+  position: relative;
+  inset: auto;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  z-index: 1;
+}
+
+.pepe-fallback {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: clamp(3.5rem, 10vw, 6rem);
+  border-radius: 24px;
+}
+
+.pepe-fallback--dusk { background: radial-gradient(ellipse at 50% 40%, rgba(255,255,255,0.12), transparent 65%); }
+.pepe-fallback--pink { background: radial-gradient(ellipse at 50% 40%, rgba(255,255,255,0.22), transparent 65%); }
+
+/* hide the fallback glyph once a real video loads */
+.pepe-frame .scene-video.is-loaded ~ .pepe-fallback { opacity: 0; transition: opacity 0.6s ease; }
+
+.pepe-layout .bubble-stack { max-width: 560px; }
+.pepe-layout .btn { margin-top: 0.2rem; }

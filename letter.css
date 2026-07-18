@@ -1,0 +1,330 @@
+/* =========================================================
+   LETTER STAGE
+   ========================================================= */
+.letter-stage {
+  position: relative;
+  z-index: 5;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  perspective: 1600px;
+}
+
+/* =========================================================
+   ENVELOPE
+   ========================================================= */
+.envelope {
+  position: relative;
+  width: min(70vw, 340px);
+  aspect-ratio: 3 / 2;
+  transform: scale(1);
+  transition: transform 1.4s var(--ease-silk), opacity 1s var(--ease-silk);
+  transform-style: preserve-3d;
+}
+
+.envelope.envelope--centered {
+  transform: scale(1.35);
+}
+
+.envelope.envelope--opening .envelope-flap {
+  transform: rotateX(180deg);
+  z-index: 1;
+}
+
+.envelope.envelope--dismiss {
+  opacity: 0;
+  transform: scale(1.6) translateY(-40px);
+  transition: opacity 0.9s var(--ease-soft), transform 0.9s var(--ease-soft);
+}
+
+.envelope-shadow {
+  position: absolute;
+  left: 8%;
+  right: 8%;
+  bottom: -18px;
+  height: 24px;
+  background: radial-gradient(ellipse, rgba(0,0,0,0.45), transparent 70%);
+  filter: blur(4px);
+  z-index: -1;
+}
+
+.envelope-back,
+.envelope-front {
+  position: absolute;
+  inset: 0;
+  border-radius: 8px;
+  background: linear-gradient(155deg, #f3d9c4 0%, #e8bfa0 60%, #dba983 100%);
+  box-shadow: 0 20px 50px rgba(0,0,0,0.35), inset 0 0 30px rgba(255,255,255,0.15);
+}
+
+.envelope-back { z-index: 0; }
+
+.envelope-front {
+  z-index: 3;
+  clip-path: polygon(0 0, 50% 42%, 100% 0, 100% 100%, 0 100%);
+  background: linear-gradient(160deg, #f7e0cb 0%, #ecc6a6 55%, #dfad89 100%);
+}
+
+.envelope-paper-peek {
+  position: absolute;
+  left: 12%;
+  right: 12%;
+  top: -6%;
+  height: 55%;
+  background: linear-gradient(180deg, #fffaf1, #fbeedb);
+  border-radius: 4px 4px 0 0;
+  z-index: 1;
+  box-shadow: 0 -4px 12px rgba(0,0,0,0.08);
+  transform: translateY(0);
+  transition: transform 1s var(--ease-silk) 0.15s;
+}
+
+.envelope--opening .envelope-paper-peek {
+  transform: translateY(-46%);
+}
+
+.envelope-flap {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 55%;
+  background: linear-gradient(200deg, #f7ddc4 0%, #e9c09a 100%);
+  clip-path: polygon(0 0, 100% 0, 50% 100%);
+  transform-origin: top center;
+  transform: rotateX(0deg);
+  transition: transform 1s var(--ease-silk);
+  z-index: 4;
+  box-shadow: 0 6px 14px rgba(0,0,0,0.15);
+}
+
+.envelope-seal {
+  position: absolute;
+  top: 44%;
+  left: 50%;
+  width: 54px;
+  height: 54px;
+  transform: translate(-50%, -50%);
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 30%, #ff8fa8, var(--rose-deep) 70%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  font-size: 1.4rem;
+  z-index: 5;
+  box-shadow: 0 4px 14px rgba(226,106,146,0.6), 0 0 0 rgba(255,182,208,0.5);
+  transition: opacity 0.5s ease, transform 0.5s ease;
+}
+
+.envelope-seal.seal-glow {
+  animation: seal-pulse 1.4s ease-in-out infinite;
+}
+
+.envelope-seal.seal-hidden {
+  opacity: 0;
+  transform: translate(-50%, -50%) scale(0.4);
+}
+
+@keyframes seal-pulse {
+  0%, 100% { box-shadow: 0 4px 14px rgba(226,106,146,0.6), 0 0 0px rgba(255,182,208,0.6); }
+  50% { box-shadow: 0 4px 22px rgba(226,106,146,0.9), 0 0 30px rgba(255,182,208,0.85); }
+}
+
+/* =========================================================
+   LETTER PAPER
+   ========================================================= */
+.letter-paper {
+  position: relative;
+  width: min(88vw, 620px);
+  max-height: 82vh;
+  background:
+    repeating-linear-gradient(180deg, rgba(120,90,60,0.03) 0 1px, transparent 1px 34px),
+    linear-gradient(180deg, #fffaf1 0%, var(--paper) 100%);
+  border-radius: 6px;
+  box-shadow:
+    0 30px 70px rgba(0,0,0,0.45),
+    0 2px 0 var(--paper-edge),
+    inset 0 0 60px rgba(180,140,100,0.08);
+  padding: clamp(1.6rem, 4vw, 3.2rem) clamp(1.6rem, 5vw, 3.6rem) 5rem;
+  transform: translateY(40px) scale(0.85);
+  opacity: 0;
+  transition: transform 1.1s var(--ease-silk), opacity 1.1s var(--ease-silk);
+  overflow: hidden;
+}
+
+.letter-paper.letter-paper--in {
+  transform: translateY(0) scale(1);
+  opacity: 1;
+}
+
+.letter-paper.letter-paper--fold {
+  transform: translateY(0) scale(0.3) rotateX(40deg);
+  opacity: 0;
+  transition: transform 1.1s var(--ease-soft), opacity 1.1s var(--ease-soft);
+}
+
+.letter-inner {
+  position: relative;
+  min-height: 30vh;
+}
+
+.letter-page {
+  display: none;
+  font-family: var(--font-hand);
+  color: #4a3626;
+  font-size: clamp(1.15rem, 2.6vw, 1.55rem);
+  line-height: 1.55;
+}
+
+.letter-page.letter-page-active { display: block; }
+
+.letter-page p { margin: 0 0 0.85rem; min-height: 1.4em; }
+
+.letter-greeting {
+  font-family: var(--font-script);
+  font-size: clamp(1.8rem, 4vw, 2.4rem);
+  color: var(--rose-deep);
+  margin-bottom: 1rem !important;
+}
+
+.letter-signoff { margin-top: 1rem !important; }
+
+.letter-signature {
+  font-family: var(--font-script);
+  font-size: clamp(1.5rem, 3.4vw, 2rem);
+  color: var(--rose-deep);
+  margin-top: 0.6rem !important;
+}
+
+/* page turn overlay sheet, purely decorative flash */
+.letter-page-turn {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(100deg, transparent 30%, rgba(255,255,255,0.9) 50%, transparent 70%);
+  transform: translateX(-120%) skewX(-15deg);
+  pointer-events: none;
+  z-index: 6;
+  opacity: 0;
+}
+
+.letter-page-turn.turning {
+  animation: page-turn-flash 0.7s var(--ease-soft);
+}
+
+@keyframes page-turn-flash {
+  0% { transform: translateX(-120%) skewX(-15deg); opacity: 0; }
+  40% { opacity: 0.9; }
+  100% { transform: translateX(120%) skewX(-15deg); opacity: 0; }
+}
+
+.letter-page.page-exit {
+  animation: page-exit 0.45s var(--ease-soft) forwards;
+}
+.letter-page.page-enter {
+  animation: page-enter 0.55s var(--ease-silk) forwards;
+}
+
+@keyframes page-exit {
+  to { opacity: 0; transform: translateX(-30px) rotateY(-12deg); }
+}
+@keyframes page-enter {
+  from { opacity: 0; transform: translateX(30px) rotateY(12deg); }
+  to { opacity: 1; transform: translateX(0) rotateY(0); }
+}
+
+#letter-continue-btn {
+  position: absolute;
+  bottom: 1.4rem;
+  left: 50%;
+  transform: translateX(-50%);
+  opacity: 0;
+  transition: opacity 0.6s ease;
+}
+#letter-continue-btn.is-visible { opacity: 1; }
+
+/* =========================================================
+   LETTER ENDING — final message + closing blackout
+   The letter is now the last scene in the experience: after
+   the final page finishes typing, this message fades in
+   beneath the paper, then the whole screen fades to black
+   for the closing title card.
+   ========================================================= */
+.letter-final-message {
+  position: absolute;
+  left: 50%;
+  bottom: 4%;
+  transform: translate(-50%, 14px);
+  width: 90%;
+  max-width: 560px;
+  text-align: center;
+  opacity: 0;
+  z-index: 6;
+  pointer-events: none;
+  transition: opacity 1.6s var(--ease-silk), transform 1.6s var(--ease-silk);
+}
+
+.letter-final-message.is-visible {
+  opacity: 1;
+  transform: translate(-50%, 0);
+}
+
+.final-heart-line {
+  font-family: var(--font-script);
+  font-size: clamp(1.4rem, 3.6vw, 2.1rem);
+  color: #fff;
+  text-shadow: 0 0 22px rgba(246,166,193,0.65);
+  margin: 0 0 0.5rem;
+}
+
+.final-signoff {
+  font-family: var(--font-hand);
+  font-size: clamp(1.1rem, 2.6vw, 1.4rem);
+  color: var(--white-90);
+  margin: 0;
+  line-height: 1.4;
+}
+
+/* =========================================================
+   SCENE 6 — GOODBYE ENDING
+   The whole scene (video + text) fades together to reveal
+   the solid black background beneath it — the true end.
+   ========================================================= */
+.scene-bg--black {
+  background: #05030c;
+}
+
+.goodbye-fade-wrap {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  opacity: 1;
+  transition: opacity 3.2s var(--ease-soft);
+}
+
+.goodbye-fade-wrap.is-fading-out {
+  opacity: 0;
+}
+
+.goodbye-lines {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.9rem;
+  text-align: center;
+  max-width: 640px;
+}
+
+.fade-line {
+  opacity: 0;
+  transform: translateY(14px);
+  transition: opacity 1.4s var(--ease-silk), transform 1.4s var(--ease-silk);
+  margin: 0;
+}
+
+.fade-line.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}

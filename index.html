@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+<title>For Someone Truly Special... 🌸</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,500&family=Caveat:wght@500;600;700&family=Quicksand:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="css/style.css" />
+<link rel="stylesheet" href="css/animations.css" />
+<link rel="stylesheet" href="css/letter.css" />
+<link rel="stylesheet" href="css/responsive.css" />
+</head>
+<body>
+
+<!-- ===================== GLOBAL LAYERS ===================== -->
+<canvas id="fx-canvas"></canvas>
+<div id="cursor-glow" aria-hidden="true"></div>
+
+<audio id="bg-music" loop preload="none">
+  <source src="assets/audio/background.mp3" type="audio/mpeg">
+</audio>
+<audio id="sfx-paper" preload="none">
+  <source src="assets/audio/paper.mp3" type="audio/mpeg">
+</audio>
+<audio id="sfx-click" preload="none">
+  <source src="assets/audio/click.mp3" type="audio/mpeg">
+</audio>
+
+<main id="stage">
+
+  <!-- ===================== SCENE 1 — LOADING ===================== -->
+  <section class="scene scene-active" id="scene-1" data-scene="1">
+    <div class="scene-bg scene-bg--night"></div>
+    <div class="starfield" data-particles="stars"></div>
+    <div class="petal-field" data-particles="petals"></div>
+
+    <div class="scene-content center-content">
+      <p class="eyebrow-script reveal-up" style="--d:0.1s">a little something for</p>
+      <h1 class="title-hero reveal-up" style="--d:0.4s">For Someone <br>Truly Special 🌸 </h1>
+      <button class="btn btn-glow reveal-up" style="--d:1s" data-action="open-surprise">
+        <span>Open My Surprise</span> <span class="btn-heart">❤️</span>
+      </button>
+    </div>
+  </section>
+
+  <!-- ===================== SCENE 2 — WELCOME (Pepe) ===================== -->
+  <section class="scene" id="scene-2" data-scene="2">
+    <div class="premium-bg">
+      <div class="bg-gradient bg-gradient--dusk"></div>
+      <div class="bokeh-field" data-particles="bokeh"></div>
+      <div class="starfield starfield--soft" data-particles="stars"></div>
+      <div class="sparkle-field" data-particles="sparkles"></div>
+      <div class="petal-field" data-particles="petals"></div>
+    </div>
+
+    <div class="scene-content pepe-layout">
+      <p class="scene-heading reveal-up" style="--d:0.1s">For You, Enoo</p>
+
+      <div class="pepe-frame reveal-up" style="--d:0.3s">
+        <video class="scene-video" data-src="assets/videos/welcome.mp4" muted loop playsinline></video>
+        <div class="pepe-fallback pepe-fallback--dusk"><span>🐸</span></div>
+      </div>
+
+      <div class="bubble-stack" id="welcome-bubbles">
+        <div class="speech-bubble" data-bubble>
+          <p data-typewriter="Hi Enoo 👋 Just A Little Effort..."></p>
+        </div>
+        <div class="speech-bubble" data-bubble>
+          <p data-typewriter="To Make You Smile. ❤️."></p>
+        </div>
+      </div>
+      <button class="btn btn-glow hidden" data-action="next-scene" data-appear-after="welcome-bubbles">
+        <span>Let's Begin</span> <span class="btn-heart">❤️</span>
+      </button>
+    </div>
+  </section>
+
+  <!-- ===================== SCENE 3 — BIRTHDAY CELEBRATION (Pepe) ===================== -->
+  <section class="scene" id="scene-3" data-scene="3">
+    <div class="premium-bg">
+      <div class="bg-gradient bg-gradient--pink"></div>
+      <div class="bokeh-field" data-particles="bokeh"></div>
+      <div class="sparkle-field" data-particles="sparkles"></div>
+      <div class="confetti-field" data-particles="confetti"></div>
+      <div class="heart-field" data-particles="hearts"></div>
+      <div class="balloon-field" data-particles="balloons"></div>
+    </div>
+
+    <div class="scene-content pepe-layout">
+      <p class="scene-heading reveal-up" style="--d:0.1s">Happy Birthday <span class="heart-pulse">❤️</span></p>
+
+      <div class="pepe-frame reveal-up" style="--d:0.3s">
+        <video class="scene-video" data-src="assets/videos/birthday.mp4" muted loop playsinline></video>
+        <div class="pepe-fallback pepe-fallback--pink"><span>🐸🎉</span></div>
+      </div>
+
+      <div class="bubble-stack">
+        <div class="speech-bubble reveal-up" style="--d:0.7s">
+          <p>Today is all about you.</p>
+        </div>
+      </div>
+      <button class="btn btn-glow reveal-up" style="--d:1.1s" data-action="next-scene">
+        <span>I Have Something For You</span> <span class="btn-heart">🎁</span>
+      </button>
+    </div>
+  </section>
+
+  <!-- ===================== SCENE 4 — ENVELOPE INTRO (Pepe) ===================== -->
+  <section class="scene" id="scene-4" data-scene="4">
+    <div class="premium-bg">
+      <div class="bg-gradient bg-gradient--dusk"></div>
+      <div class="bokeh-field" data-particles="bokeh"></div>
+      <div class="starfield starfield--soft" data-particles="stars"></div>
+      <div class="sparkle-field" data-particles="sparkles"></div>
+    </div>
+
+    <div class="scene-content pepe-layout">
+      <p class="scene-heading reveal-up" style="--d:0.1s">One More Thing</p>
+
+      <div class="pepe-frame reveal-up" style="--d:0.3s">
+        <video class="scene-video" data-src="assets/videos/envelope.mp4" muted loop playsinline></video>
+        <div class="pepe-fallback pepe-fallback--dusk"><span>💌</span></div>
+      </div>
+
+      <div class="bubble-stack" id="envelope-bubbles">
+        <div class="speech-bubble" data-bubble>
+          <p data-typewriter="Before anything else..."></p>
+        </div>
+        <div class="speech-bubble" data-bubble>
+          <p data-typewriter="Please read this letter."></p>
+        </div>
+      </div>
+      <button class="btn btn-glow hidden" data-action="open-letter" data-appear-after="envelope-bubbles">
+        <span>💌 Open My Letter</span>
+      </button>
+    </div>
+  </section>
+
+  <!-- ===================== SCENE 5 — THE LETTER (FINAL SCENE) ===================== -->
+  <section class="scene" id="scene-5" data-scene="5">
+    <div class="scene-bg scene-bg--dusk"></div>
+    <div class="starfield" data-particles="stars"></div>
+    <div class="sparkle-field" data-particles="sparkles"></div>
+    <div class="petal-field" data-particles="petals"></div>
+
+    <div class="letter-stage" id="letter-stage">
+
+      <!-- Envelope -->
+      <div class="envelope" id="envelope">
+        <div class="envelope-shadow"></div>
+        <div class="envelope-back"></div>
+        <div class="envelope-flap"></div>
+        <div class="envelope-seal">
+          <span>❤</span>
+        </div>
+        <div class="envelope-front"></div>
+        <div class="envelope-paper-peek"></div>
+      </div>
+
+     <!-- Letter Paper -->
+<div class="letter-paper hidden" id="letter-paper">
+  <div class="letter-page-turn" id="letter-page-turn"></div>
+  <div class="letter-inner" id="letter-inner">
+
+    <!-- Page 1 -->
+    <div class="letter-page letter-page-active" data-page="1">
+      <p class="letter-greeting">Hi Enoo ❤️</p>
+
+      <p data-typewriter="Happy Birthday, Kuchipuchi! 🎉"></p>
+
+      <p data-typewriter="I know this is just a small surprise, but I truly hope it brings a smile to your face. Every little part of this was made especially for you."></p>
+
+      <p data-typewriter="Today is your day, and I simply want you to know how appreciated, valued, and special you are."></p>
+    </div>
+
+    <!-- Page 2 -->
+    <div class="letter-page" data-page="2">
+      <p data-typewriter="When university started, I never expected to find someone who would become such an important part of my journey."></p>
+
+      <p data-typewriter="There are many people at university, but very few become someone you genuinely enjoy being around."></p>
+
+      <p data-typewriter="I'm really grateful that I got to know you. You became the one friend who made ordinary university days feel brighter and much more memorable."></p>
+    </div>
+
+    <!-- Page 3 -->
+    <div class="letter-page" data-page="4">
+      <p data-typewriter="Without you, university would have been just another place for lectures, assignments, and exams. Your friendship turned it into a place filled with laughter, conversations, and memories I'll always cherish."></p>
+
+      <p data-typewriter="Thank you for every random conversation, every laugh, every joke, and every little memory we've shared along the way."></p>
+
+      <p data-typewriter="I genuinely appreciate having you as my friend, and that's something I'll always be thankful for."></p>
+    </div>
+
+    <!-- Page 4 -->
+    <div class="letter-page" data-page="5">
+      <p data-typewriter="No matter where life takes us after university, I hope you achieve every dream you've been working towards."></p>
+
+      <p data-typewriter="May every challenge make you stronger, every success make you happier, and every tomorrow give you another reason to smile."></p>
+
+      <p data-typewriter="Never stop believing in yourself, because you're capable of far more than you realize."></p>
+    </div>
+
+    <!-- Final Page -->
+    <div class="letter-page" data-page="6">
+
+      <p data-typewriter="If this little surprise managed to make you smile, even for a few moments, then every minute spent creating it was completely worth it."></p>
+
+      <p data-typewriter="Happy Birthday once again, Enoo. I hope this year brings you endless happiness, beautiful memories, and everything your heart wishes for. ❤️"></p>
+
+      <p class="letter-signoff" data-typewriter="With all my heartfelt wishes,"></p>
+
+      <p class="letter-signature">
+        🐸 Your Little PEPE<br>
+        ❤️
+      </p>
+
+    </div>
+
+  </div>
+</div>
+
+      <!-- Final emotional message, fades in beneath the letter once typing finishes -->
+      <div class="letter-final-message" id="letter-final-message">
+        <p class="final-heart-line">❤️ Happy Birthday, Enoo ❤️</p>
+        <p class="final-signoff">— With all my heartfelt wishes,<br>Your Little Frog 🐸</p>
+      </div>
+
+    </div>
+  </section>
+  <!-- ===================== SCENE 6 — GOODBYE (Pepe, final ending) ===================== -->
+  <section class="scene" id="scene-6" data-scene="6">
+    <div class="scene-bg scene-bg--black"></div>
+
+    <div class="goodbye-fade-wrap" id="goodbye-fade-wrap">
+      <div class="premium-bg">
+        <div class="bg-gradient bg-gradient--dusk"></div>
+        <div class="bokeh-field" data-particles="bokeh"></div>
+        <div class="starfield starfield--soft" data-particles="stars"></div>
+        <div class="sparkle-field" data-particles="sparkles"></div>
+        <div class="petal-field" data-particles="petals"></div>
+      </div>
+
+      <div class="scene-content pepe-layout">
+        <div class="pepe-frame">
+          <video class="scene-video" data-src="assets/videos/goodbye.mp4" muted loop playsinline></video>
+          <div class="pepe-fallback pepe-fallback--dusk"><span>🐸</span></div>
+        </div>
+
+        <div class="goodbye-lines">
+          <p class="final-line fade-line" id="goodbye-line1">Some moments only last a few minutes...</p>
+          <p class="final-line fade-line" id="goodbye-line2">but beautiful memories stay forever.</p>
+          <h2 class="title-glow fade-line" id="goodbye-title">Happy Birthday Enoo ❤️</h2>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+
+<script src="js/particles.js"></script>
+<script src="js/confetti.js"></script>
+<script src="js/fireworks.js"></script>
+<script src="js/typewriter.js"></script>
+<script src="js/envelope.js"></script>
+<script src="js/scenes.js"></script>
+<script src="js/main.js"></script>
+</body>
+</html>
