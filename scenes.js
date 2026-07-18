@@ -13,55 +13,28 @@ const Scenes = (() => {
 
   function el(n) { return document.getElementById(`scene-${n}`); }
 
- function activateMedia(sceneEl) {
+  function activateMedia(sceneEl) {
     const video = sceneEl.querySelector('.scene-video');
     if (!video) return;
-
     if (!video.src) {
-        const src = video.dataset.src;
-        if (!src) return;
-
-        video.src = src;
-
-        video.addEventListener('loadeddata', () => video.classList.add('is-loaded'));
-
-        video.addEventListener('error', () => {
-            video.style.display = 'none';
-        });
-
-        video.load();
+      const src = video.dataset.src;
+      if (!src) return;
+      video.src = src;
+      video.addEventListener('loadeddata', () => video.classList.add('is-loaded'));
+      video.addEventListener('error', () => {
+        // Missing asset: keep the CSS gradient fallback visible.
+        video.style.display = 'none';
+      });
+      video.load();
     }
-video.currentTime = 0;
+    const p = video.play();
+    if (p && p.catch) p.catch(() => {});
+  }
 
-const p = video.play();
-if (p && p.catch) {
-    p.catch(err => console.log(err));
-}
-
-
-/* ---------- ADD THIS NEW FUNCTION ---------- */
-function preloadNextVideo(sceneNumber) {
-    const nextScene = document.getElementById(`scene-${sceneNumber + 1}`);
-    if (!nextScene) return;
-
-    const video = nextScene.querySelector('.scene-video');
-    if (!video) return;
-
-    if (!video.src) {
-        const src = video.dataset.src;
-        if (!src) return;
-
-        video.src = src;
-        video.load();
-    }
-}
-/* ---------- END ---------- */
-
-
-function pauseMedia(sceneEl) {
+  function pauseMedia(sceneEl) {
     const video = sceneEl.querySelector('.scene-video');
     if (video && !video.paused) video.pause();
-}
+  }
 
   async function runBubbleSequence(sceneEl) {
     const stack = sceneEl.querySelector('.bubble-stack');
@@ -77,8 +50,7 @@ function pauseMedia(sceneEl) {
     if (trigger) trigger.classList.remove('hidden');
   }
 
-   
-function goTo(n) {
+  function goTo(n) {
     if (n < 1 || n > total || n === current) return;
     const from = el(current);
     const to = el(n);
@@ -89,9 +61,7 @@ function goTo(n) {
 
     to.classList.add('scene-active');
     Particles.seedScene(to);
-
     activateMedia(to);
-    preloadNextVideo(n); // <-- Add this line
 
     // Scene-specific behavior
     if (n === 3) Confetti.spawnBurst(150);
